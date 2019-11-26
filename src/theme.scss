@@ -1,0 +1,15 @@
+
+
+$backgroundPurple: #a05cd0;
+$grey: #333333;
+$offWhite: #cccccc;
+
+$pad: 16px;
+$half-pad: 8px;
+$mega-pad: 32px;
+
+:export {
+  offWhite: $offWhite;
+  grey: $grey;
+  backgroundPurple: $backgroundPurple;
+}

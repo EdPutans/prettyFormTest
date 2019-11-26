@@ -1,0 +1,22 @@
+@import '../../theme.scss';
+
+.PageContainer{
+  width: 100vw;
+  height: 100vh;
+  display: flex; 
+  justify-content: center;
+  align-items: center;
+  background-color: $backgroundPurple;
+  text-align: center;
+
+  &_title{
+    margin: $mega-pad;
+    color: $grey;
+  }
+  &_content{
+    background-color: $offWhite;;
+    padding: $mega-pad;
+    display: flex;
+    flex-direction: column;
+  }
+}
