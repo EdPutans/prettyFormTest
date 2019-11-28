@@ -1,11 +1,25 @@
 import React from 'react';
 import PageContainer from './Components/PageContainer/PageContainer';
-import Questionnaire from './Pages/Questionaire/Questionaire';
+import Questionaire from './Pages/Questionaire/Questionaire';
+// import PreSubmit from './Pages/PreSubmit/PreSubmit';
 
 function App() {
+  const [formStage, setFormStage] = React.useState(1);
+  const [userData, setUserData] = React.useState({
+    name: '',
+    email: '',
+    sportType: '',
+    answer: '',
+    acceptedCommunication: false,
+  });
+
   return (
     <PageContainer>
-      <Questionnaire />
+      <Questionaire
+        onChange={(field, val) => setUserData({ ...userData, [field]: val })}
+        userData={userData}
+      />
+      {/* <PreSubmit /> */}
     </PageContainer>
   );
 }

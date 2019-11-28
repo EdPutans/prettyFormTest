@@ -3,6 +3,8 @@
 $backgroundPurple: #a05cd0;
 $grey: #333333;
 $offWhite: #cccccc;
+$errorRed: #c74752;
+$submitPurple: #f700ff;
 
 $pad: 16px;
 $half-pad: 8px;
@@ -12,4 +14,6 @@ $mega-pad: 32px;
   offWhite: $offWhite;
   grey: $grey;
   backgroundPurple: $backgroundPurple;
+  errorRed: $errorRed;
+  submitPurple: $submitPurple;
 }

@@ -3,5 +3,10 @@
 .Questionaire{
   &_input{
     margin: $pad;
+    text-align: left;
+  }
+  &_errorText{
+    margin: 0 auto;
+    color: $errorRed;
   }
 }
