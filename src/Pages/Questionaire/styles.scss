@@ -4,9 +4,21 @@
   &_input{
     margin: $pad;
     text-align: left;
+    &_label{
+      margin-left: $pad;
+    }
   }
   &_errorText{
     margin: 0 auto;
     color: $errorRed;
+  }
+  &_submit{
+    margin: $pad !important;
+    background-color: $submitPurple !important;
+    color: $white !important;
+    &_disabled{
+      @extend .Questionaire_submit;
+      background-color: $offWhite !important;
+    }
   }
 }

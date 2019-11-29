@@ -1,6 +1,14 @@
 import React from 'react';
 import './styles.scss';
-import { Input, MenuItem, Select, Button, Checkbox } from '@material-ui/core';
+import {
+  Input,
+  MenuItem,
+  Select,
+  Button,
+  Checkbox,
+  FormControl,
+  InputLabel,
+} from '@material-ui/core';
 import PropTypes from 'prop-types';
 import { formTypes, formValidator } from '../../utils/formValidator';
 import { userDataProps } from '../../utils/customPropTypes';
@@ -12,27 +20,36 @@ const constants = {
     formulaOne: { key: 'Formula One', val: 'formulaOne' },
   },
   raceTracks: [
-    { key: 'Monaco', value: 'monaco' },
-    { key: 'Spa', value: 'spa' },
-    { key: 'Suzuka', value: 'suzuka' },
-    { key: 'Monza', value: 'monza' },
+    { key: 'Monaco', val: 'monaco' },
+    { key: 'Spa', val: 'spa' },
+    { key: 'Suzuka', val: 'suzuka' },
+    { key: 'Monza', val: 'monza' },
   ],
 };
 
-const Questionnaire = ({ userData, onChange, onSubmit }) => {
+const Questionaire = ({ userData, onChange, onSubmit }) => {
   const [error, setError] = React.useState({
     name: '',
     email: '',
   });
 
   React.useEffect(() => {
-    onChange('answer', null);
+    onChange('answer', '');
   }, [userData.sportType]);
 
   React.useEffect(() => {
-    setError(formValidator(formTypes.email, userData.email));
-    setError({ ...error, name: formValidator(formTypes.userName, userData.name) });
+    setError({
+      email: formValidator(formTypes.email, userData.email),
+      name: formValidator(formTypes.userName, userData.name),
+    });
   }, [userData]);
+
+  const disabledSubmit =
+    !userData.name ||
+    !userData.email ||
+    !userData.answer ||
+    !userData.sportType ||
+    Object.values(error).find(e => Boolean(e));
 
   const renderConditionalInput = () => {
     switch (userData.sportType) {
@@ -40,24 +57,30 @@ const Questionnaire = ({ userData, onChange, onSubmit }) => {
         return (
           <Input
             value={userData.answer}
-            placeholder="Favourite football player"
+            placeholder="Team you support"
             className="Questionaire_input"
-            onChange={e => onChange({ ...userData, answer: e.target.value })}
+            onChange={e => onChange('answer', e.target.value)}
           />
         );
       case constants.sportTypes.formulaOne.val:
         return (
-          <Select
-            value={userData.sportType}
-            className="Questionaire_input"
-            onChange={val => onChange({ ...userData, answer: val.target.value })}
-          >
-            {constants.raceTracks.map(track => (
-              <MenuItem key={track.val} value={track.val}>
-                {track.key}
-              </MenuItem>
-            ))}
-          </Select>
+          <FormControl>
+            <InputLabel className="Questionaire_input_label" id="track">
+              Select the greatest track
+            </InputLabel>
+            <Select
+              labelId="track"
+              value={userData.answer}
+              className="Questionaire_input"
+              onChange={e => onChange('answer', e.target.value)}
+            >
+              {constants.raceTracks.map(track => (
+                <MenuItem key={track.key} value={track.val}>
+                  {track.key}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
         );
       case constants.sportTypes.tennis.val:
         return (
@@ -65,7 +88,7 @@ const Questionnaire = ({ userData, onChange, onSubmit }) => {
             value={userData.answer}
             placeholder="Favourite player"
             className="Questionaire_input"
-            onChange={e => onChange({ ...userData, answer: e.target.value })}
+            onChange={e => onChange('answer', e.target.value)}
           />
         );
       default:
@@ -81,46 +104,56 @@ const Questionnaire = ({ userData, onChange, onSubmit }) => {
         className="Questionaire_input"
         onChange={e => onChange('name', e.target.value)}
       />
-      {error && error.name && <p className="Questionaire_errorText">{error.name}</p>}
+      {error.name && <p className="Questionaire_errorText">{error.name}</p>}
       <Input
         placeholder="Email"
         className="Questionaire_input"
         onChange={e => onChange('email', e.target.value)}
       />
-      {error && error.email && <p className="Questionaire_errorText">{error.email}</p>}
-      <Select
-        displayEmpty
-        value={userData.sportType}
-        className="Questionaire_input"
-        onChange={val => onChange('sportType', val.target.value)}
-      >
-        {Object.keys(constants.sportTypes).map(s => (
-          <MenuItem key={s} value={constants.sportTypes[s].val}>
-            {constants.sportTypes[s].key}
-          </MenuItem>
-        ))}
-      </Select>
-
+      {error.email && <p className="Questionaire_errorText">{error.email}</p>}
+      <FormControl>
+        <InputLabel className="Questionaire_input_label" id="sportType">
+          Sport Type
+        </InputLabel>
+        <Select
+          labelId="sportType"
+          value={userData.sportType}
+          className="Questionaire_input"
+          onChange={e => onChange('sportType', e.target.value)}
+        >
+          {Object.keys(constants.sportTypes).map(s => (
+            <MenuItem key={s} value={constants.sportTypes[s].val}>
+              {constants.sportTypes[s].key}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
       {renderConditionalInput()}
       <div>
         <Checkbox
+          id="ch"
           onChange={() => onChange('acceptedCommunication', !userData.acceptedCommunication)}
         />
-        <label>Accept further communication</label>
+
+        <label type="text" htmlFor="id">
+          I agree to receive spam
+        </label>
       </div>
-      <Button className="Questionnaire_submit" onClick={onSubmit}>
+      <Button
+        disabled={disabledSubmit}
+        className={`Questionaire_submit${disabledSubmit ? '_disabled' : ''}`}
+        onClick={onSubmit}
+      >
         Submit
       </Button>
     </React.Fragment>
   );
 };
 
-Questionnaire.propTypes = {
+Questionaire.propTypes = {
   userData: userDataProps.isRequired,
   onChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
 };
 
-Questionnaire.defaultProps = {};
-
-export default Questionnaire;
+export default Questionaire;

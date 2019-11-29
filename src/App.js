@@ -13,16 +13,22 @@ function App() {
     acceptedCommunication: false,
   });
 
-  return (
-    <PageContainer>
-      {formStage === 1 && (
+  if (formStage === 1) {
+    return (
+      <PageContainer title="Pretty form">
         <Questionaire
           onChange={(field, val) => setUserData({ ...userData, [field]: val })}
           userData={userData}
           onSubmit={() => setFormStage(2)}
         />
-      )}
-      {formStage === 2 && <Summary userData={userData} />}
+      </PageContainer>
+    );
+  }
+
+  // if stage 2
+  return (
+    <PageContainer title="Thank you">
+      <Summary userData={userData} />
     </PageContainer>
   );
 }

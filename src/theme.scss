@@ -4,16 +4,9 @@ $backgroundPurple: #a05cd0;
 $grey: #333333;
 $offWhite: #cccccc;
 $errorRed: #c74752;
-$submitPurple: #f700ff;
+$submitPurple: #660569;
+$white: white;
 
 $pad: 16px;
 $half-pad: 8px;
 $mega-pad: 32px;
-
-:export {
-  offWhite: $offWhite;
-  grey: $grey;
-  backgroundPurple: $backgroundPurple;
-  errorRed: $errorRed;
-  submitPurple: $submitPurple;
-}
