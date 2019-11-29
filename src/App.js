@@ -3,15 +3,17 @@ import PageContainer from './Components/PageContainer/PageContainer';
 import Questionaire from './Pages/Questionaire/Questionaire';
 import Summary from './Pages/Summary/Summary';
 
+const defaultUserData = {
+  name: '',
+  email: '',
+  sportType: '',
+  answer: '',
+  acceptedCommunication: false,
+};
+
 function App() {
   const [formStage, setFormStage] = React.useState(1);
-  const [userData, setUserData] = React.useState({
-    name: '',
-    email: '',
-    sportType: '',
-    answer: '',
-    acceptedCommunication: false,
-  });
+  const [userData, setUserData] = React.useState(defaultUserData);
 
   if (formStage === 1) {
     return (
@@ -28,7 +30,13 @@ function App() {
   // if stage 2
   return (
     <PageContainer title="Thank you">
-      <Summary userData={userData} />
+      <Summary
+        userData={userData}
+        reset={() => {
+          setUserData(defaultUserData);
+          setFormStage(1);
+        }}
+      />
     </PageContainer>
   );
 }

@@ -134,8 +134,7 @@ const Questionaire = ({ userData, onChange, onSubmit }) => {
           id="ch"
           onChange={() => onChange('acceptedCommunication', !userData.acceptedCommunication)}
         />
-
-        <label type="text" htmlFor="id">
+        <label type="text" htmlFor="ch">
           I agree to receive spam
         </label>
       </div>
