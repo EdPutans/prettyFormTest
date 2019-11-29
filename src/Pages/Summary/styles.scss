@@ -1,0 +1,8 @@
+@import '../../theme.scss';
+
+.Summary{
+  &_text{
+    margin: $pad;
+    text-transform: capitalize;
+  }
+}

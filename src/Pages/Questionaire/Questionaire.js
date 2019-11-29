@@ -1,7 +1,9 @@
 import React from 'react';
 import './styles.scss';
 import { Input, MenuItem, Select, Button, Checkbox } from '@material-ui/core';
+import PropTypes from 'prop-types';
 import { formTypes, formValidator } from '../../utils/formValidator';
+import { userDataProps } from '../../utils/customPropTypes';
 
 const constants = {
   sportTypes: {
@@ -22,6 +24,10 @@ const Questionnaire = ({ userData, onChange, onSubmit }) => {
     name: '',
     email: '',
   });
+
+  React.useEffect(() => {
+    onChange('answer', null);
+  }, [userData.sportType]);
 
   React.useEffect(() => {
     setError(formValidator(formTypes.email, userData.email));
@@ -47,7 +53,9 @@ const Questionnaire = ({ userData, onChange, onSubmit }) => {
             onChange={val => onChange({ ...userData, answer: val.target.value })}
           >
             {constants.raceTracks.map(track => (
-              <MenuItem value={track.val}>{track.key}</MenuItem>
+              <MenuItem key={track.val} value={track.val}>
+                {track.key}
+              </MenuItem>
             ))}
           </Select>
         );
@@ -64,10 +72,6 @@ const Questionnaire = ({ userData, onChange, onSubmit }) => {
         return null;
     }
   };
-
-  React.useEffect(() => {
-    onChange('answer', null);
-  }, [userData.sportType]);
 
   return (
     <React.Fragment>
@@ -91,23 +95,32 @@ const Questionnaire = ({ userData, onChange, onSubmit }) => {
         onChange={val => onChange('sportType', val.target.value)}
       >
         {Object.keys(constants.sportTypes).map(s => (
-          <MenuItem value={constants.sportTypes[s].val}>{constants.sportTypes[s].key}</MenuItem>
+          <MenuItem key={s} value={constants.sportTypes[s].val}>
+            {constants.sportTypes[s].key}
+          </MenuItem>
         ))}
       </Select>
 
       {renderConditionalInput()}
-      <Checkbox
-        onChange={() => onChange('acceptedCommunication', !userData.acceptedCommunication)}
-      />
-      <Button className="Questionnaire_submit">Submit</Button>
+      <div>
+        <Checkbox
+          onChange={() => onChange('acceptedCommunication', !userData.acceptedCommunication)}
+        />
+        <label>Accept further communication</label>
+      </div>
+      <Button className="Questionnaire_submit" onClick={onSubmit}>
+        Submit
+      </Button>
     </React.Fragment>
   );
 };
 
-Questionnaire.propTypes = {};
-Questionnaire.defaultProps = {};
+Questionnaire.propTypes = {
+  userData: userDataProps.isRequired,
+  onChange: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+};
 
-const mapStateToProps = state => ({});
-const mapDispatchToProps = dispatch => ({});
+Questionnaire.defaultProps = {};
 
 export default Questionnaire;

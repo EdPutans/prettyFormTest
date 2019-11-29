@@ -1,7 +1,7 @@
 import React from 'react';
 import PageContainer from './Components/PageContainer/PageContainer';
 import Questionaire from './Pages/Questionaire/Questionaire';
-// import PreSubmit from './Pages/PreSubmit/PreSubmit';
+import Summary from './Pages/Summary/Summary';
 
 function App() {
   const [formStage, setFormStage] = React.useState(1);
@@ -15,11 +15,14 @@ function App() {
 
   return (
     <PageContainer>
-      <Questionaire
-        onChange={(field, val) => setUserData({ ...userData, [field]: val })}
-        userData={userData}
-      />
-      {/* <PreSubmit /> */}
+      {formStage === 1 && (
+        <Questionaire
+          onChange={(field, val) => setUserData({ ...userData, [field]: val })}
+          userData={userData}
+          onSubmit={() => setFormStage(2)}
+        />
+      )}
+      {formStage === 2 && <Summary userData={userData} />}
     </PageContainer>
   );
 }
